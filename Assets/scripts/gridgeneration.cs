@@ -7,7 +7,7 @@ public class gridgeneration : MonoBehaviour
 
     public GameObject prefab;
 
-    public Color BlankColour, Visible;
+
     //GameObject Maincube;
     //GameObject child; 
 
@@ -22,6 +22,12 @@ public class gridgeneration : MonoBehaviour
     MaterialPropertyBlock mpb;
 
     static readonly int shCubeColor = Shader.PropertyToID("_Color");
+
+
+    public CubeLayer[] terrainLayers;
+
+
+
     public MaterialPropertyBlock Mpb
     {
         get
@@ -53,33 +59,70 @@ public class gridgeneration : MonoBehaviour
         {
             for (int y= 0; y < SizeY; y++)
             {
+                
                 for(int z =0; z < SizeZ; z++)
                 {
                     GameObject newGridPiece = Instantiate(prefab, transform);
                     Vector3 newPosition = new Vector3(x, y, z);
                     newGridPiece.transform.localPosition = newPosition;
 
+                    Color ncol = new Color((float)x / SizeX, (float)y / SizeY, (float)z / SizeZ);
+                    //newGridPiece.TryGetComponent(out MeshRenderer rend);
+                    MeshRenderer mesh = newGridPiece.GetComponent<MeshRenderer>();//  newGridPiece.GetComponent<MeshRenderer>().material.color = ncol;
 
-                    newGridPiece.TryGetComponent(out MeshRenderer rend);
+                    ApplyColour(mesh, ncol);
 
 
                     //float interp = (float)transform.childCount / (SizeX + SizeZ + SizeY);
                     //Debug.Log(interp);
 
+                    //if(y==0)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.red;
+                    //}
+                    //if (y == 1)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.gray;
+                    //}
+                    //if (y == 2)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.blue;
+                    //}
+                    //if (y == 3)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.green;
+                    //}
+                    //if (y == 4)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.clear;
+                    //}
+                    //if (y == 5)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.cyan;
+                    //}
+                    //if (y == 6)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.white;
+                    //}
+                    //if (y == 0)
+                    //{
+                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.black;
+                    //}
+
 
                     CubeCount++;
 
-                   if (Application.isEditor)
-                   {
+                   //if (Application.isEditor)
+                   //{
 
 
-                        ApplyColour(CubeCount, rend);
+                   //     ApplyColour(CubeCount, rend);
                    
-                   }
-                   else
-                   {
-                        ApplyColour(CubeCount, rend);
-                   }
+                   //}
+                   //else
+                   //{
+                   //     ApplyColour(CubeCount, rend);
+                   //}
 
                 }
             }
@@ -117,13 +160,9 @@ public class gridgeneration : MonoBehaviour
         //double click? / right click? to change cube material
     }
 
-    void ApplyColour(int cubeNum, MeshRenderer meshRenderer)
+    void ApplyColour(MeshRenderer meshRenderer, Color color)
     {
-//        MeshRenderer[] rnd = GetComponentsInChildren<MeshRenderer>();
-        Color MatColor = Color.Lerp(BlankColour, Visible, ((float)cubeNum / transform.childCount));
-
-        Debug.Log(((float)cubeNum /     (SizeX * SizeY * SizeZ)));
-        Mpb.SetColor(shCubeColor, MatColor);
+        Mpb.SetColor(shCubeColor, color);
         meshRenderer.SetPropertyBlock(Mpb);
         
     }
