@@ -8,7 +8,7 @@ using UnityEngine;
 public class CubeLayer : MonoBehaviour
 {
 
-    int LayerDepth;
-    Color layerColor;
+    public int LayerDepth;
+    public Color layerColor;
 
 }

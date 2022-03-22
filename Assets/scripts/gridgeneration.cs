@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class gridgeneration : MonoBehaviour
     //GameObject child; 
 
     //Slider values for Grid Size coordinates
-    [Range(1,8)]
+    [Range(1, 8)]
     public int SizeY;
     [Range(1, 8)]
     public int SizeX;
@@ -37,7 +38,7 @@ public class gridgeneration : MonoBehaviour
             return mpb;
         }
     }
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,8 +46,8 @@ public class gridgeneration : MonoBehaviour
 
         StartGen();
 
-    //      Maincube = gameObject;
-    //      child = Maincube.transform.GetChild(0).gameObject;
+        //      Maincube = gameObject;
+        //      child = Maincube.transform.GetChild(0).gameObject;
     }
     public void StartGen()
     {
@@ -55,78 +56,56 @@ public class gridgeneration : MonoBehaviour
 
 
         int CubeCount = 1;
-        for (int x = 0; x< SizeX; x++)
+        for (int x = 0; x < SizeX; x++)
         {
-            for (int y= 0; y < SizeY; y++)
+            for (int y = 0; y < SizeY; y++)
             {
-                
-                for(int z =0; z < SizeZ; z++)
+
+                for (int z = 0; z < SizeZ; z++)
                 {
                     GameObject newGridPiece = Instantiate(prefab, transform);
                     Vector3 newPosition = new Vector3(x, y, z);
                     newGridPiece.transform.localPosition = newPosition;
 
-                    Color ncol = new Color((float)x / SizeX, (float)y / SizeY, (float)z / SizeZ);
+                    Color ncol = GetDepthColor(y); // new Color((float)x / SizeX, (float)y / SizeY, (float)z / SizeZ);
                     //newGridPiece.TryGetComponent(out MeshRenderer rend);
                     MeshRenderer mesh = newGridPiece.GetComponent<MeshRenderer>();//  newGridPiece.GetComponent<MeshRenderer>().material.color = ncol;
 
                     ApplyColour(mesh, ncol);
 
-
-                    //float interp = (float)transform.childCount / (SizeX + SizeZ + SizeY);
-                    //Debug.Log(interp);
-
-                    //if(y==0)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.red;
-                    //}
-                    //if (y == 1)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.gray;
-                    //}
-                    //if (y == 2)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.blue;
-                    //}
-                    //if (y == 3)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.green;
-                    //}
-                    //if (y == 4)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.clear;
-                    //}
-                    //if (y == 5)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.cyan;
-                    //}
-                    //if (y == 6)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.white;
-                    //}
-                    //if (y == 0)
-                    //{
-                    //    newGridPiece.GetComponent<MeshRenderer>().material.color = Color.black;
-                    //}
-
+                    
+                    
 
                     CubeCount++;
 
-                   //if (Application.isEditor)
-                   //{
+                    //if (Application.isEditor)
+                    //{
 
 
-                   //     ApplyColour(CubeCount, rend);
-                   
-                   //}
-                   //else
-                   //{
-                   //     ApplyColour(CubeCount, rend);
-                   //}
+                    //     ApplyColour(CubeCount, rend);
+
+                    //}
+                    //else
+                    //{
+                    //     ApplyColour(CubeCount, rend);
+                    //}
 
                 }
             }
         }
+    }
+
+    private Color GetDepthColor(int y)
+    {
+        foreach (CubeLayer i in terrainLayers)
+        {
+            if (i.LayerDepth == y)
+            {
+                return i.layerColor;
+            }
+        }
+        return new Color(0.5f, (float)y / SizeY, 0.5f);
+
     }
 
     public void Delete()
@@ -153,6 +132,7 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
+  
     public void CubePen()
     {
         //to add later
@@ -164,12 +144,12 @@ public class gridgeneration : MonoBehaviour
     {
         Mpb.SetColor(shCubeColor, color);
         meshRenderer.SetPropertyBlock(Mpb);
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
