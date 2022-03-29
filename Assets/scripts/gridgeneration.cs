@@ -13,11 +13,11 @@ public class gridgeneration : MonoBehaviour
     //GameObject child; 
 
     //Slider values for Grid Size coordinates
-    [Range(1, 8)]
+    [Range(1, 4)]
     public int SizeY;
-    [Range(1, 8)]
+    [Range(1, 12)]
     public int SizeX;
-    [Range(1, 8)]
+    [Range(1, 12)]
     public int SizeZ;
 
     MaterialPropertyBlock mpb;
