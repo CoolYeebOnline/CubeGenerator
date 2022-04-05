@@ -13,6 +13,7 @@ public class PerlinNoise : MonoBehaviour
     private void Start()
     {
         offsetX = Random.Range(0f, 99999f);
+        offsetY = Random.Range(0f, 99999f);
     }
 
     void Update()

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +17,11 @@ public class gridgeneration : MonoBehaviour
     public int SizeX;
     [Range(1, 12)]
     public int SizeZ;
+
+    public float scale = 20;
+
+    public float offsetX = 100f;
+    public float offsetY = 100f;
 
     MaterialPropertyBlock mpb;
 
@@ -43,7 +46,8 @@ public class gridgeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        offsetX = Random.Range(0f, 1f);
+        offsetY = Random.Range(0f, 1f);
         StartGen();
 
         //      Maincube = gameObject;
@@ -78,18 +82,7 @@ public class gridgeneration : MonoBehaviour
 
                     CubeCount++;
 
-                    //if (Application.isEditor)
-                    //{
-
-
-                    //     ApplyColour(CubeCount, rend);
-
-                    //}
-                    //else
-                    //{
-                    //     ApplyColour(CubeCount, rend);
-                    //}
-
+                
                 }
             }
         }
@@ -132,6 +125,13 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
+    public int Carve(int x, int y, int z)
+    {
+        float xCoord = (float)x / SizeX * scale + offsetX;
+        float yCoord = (float)y / SizeY * scale + offsetY;
+        float sample = Mathf.PerlinNoise(xCoord, yCoord);
+        return Mathf.RoundToInt(sample);
+    }
   
     public void CubePen()
     {
