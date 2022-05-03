@@ -88,6 +88,25 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
+    public void Carve()
+    {
+        for(int x = 0; x < SizeX; x++)
+        {
+            for(int y = 0; y < SizeY; y++)
+            {
+                for (int z = 0; z < SizeZ; z++)
+                {
+                    //get the X and Z coords and compare with coords from perlin noise depending on if it returns 1 or 0 
+                    // for depth of carving 
+                   
+                    
+
+                }
+            }
+            
+        }
+    }
+    
     private Color GetDepthColor(int y)
     {
         foreach (CubeLayer i in terrainLayers)
@@ -125,7 +144,7 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
-    public int Carve(int x, int y, int z)
+    public int PerlinCalc(int x, int y)
     {
         float xCoord = (float)x / SizeX * scale + offsetX;
         float yCoord = (float)y / SizeY * scale + offsetY;
