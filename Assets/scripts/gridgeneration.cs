@@ -11,7 +11,7 @@ public class gridgeneration : MonoBehaviour
     //GameObject child; 
 
     //Slider values for Grid Size coordinates
-    [Range(1, 4)]
+    [Range(1, 5)]
     public int SizeY;
     [Range(1, 12)]
     public int SizeX;
@@ -62,22 +62,27 @@ public class gridgeneration : MonoBehaviour
         int CubeCount = 1;
         for (int x = 0; x < SizeX; x++)
         {
-            for (int y = 0; y < SizeY; y++)
+            for (int z = 0; z < SizeZ; z++)
             {
-
-                for (int z = 0; z < SizeZ; z++)
+                for (int y = 0; y < SizeY; y++)
                 {
-                    GameObject newGridPiece = Instantiate(prefab, transform);
-                    Vector3 newPosition = new Vector3(x, y, z);
-                    newGridPiece.transform.localPosition = newPosition;
-
-                    Color ncol = GetDepthColor(y); // new Color((float)x / SizeX, (float)y / SizeY, (float)z / SizeZ);
-                    //newGridPiece.TryGetComponent(out MeshRenderer rend);
-                    MeshRenderer mesh = newGridPiece.GetComponent<MeshRenderer>();//  newGridPiece.GetComponent<MeshRenderer>().material.color = ncol;
-
-                    ApplyColour(mesh, ncol);
 
                     
+                    int PerlinNumber = PerlinCalc(x, z);
+                    Debug.Log(PerlinNumber + " " + SizeY);
+                    if(PerlinNumber > y)
+                    {
+
+                        GameObject newGridPiece = Instantiate(prefab, transform);
+                        Vector3 newPosition = new Vector3(x, y, z);
+                        newGridPiece.transform.localPosition = newPosition;
+
+                        Color ncol = GetDepthColor(y); // new Color((float)x / SizeX, (float)y / SizeY, (float)z / SizeZ);
+                                                       //newGridPiece.TryGetComponent(out MeshRenderer rend);
+                        MeshRenderer mesh = newGridPiece.GetComponent<MeshRenderer>();//  newGridPiece.GetComponent<MeshRenderer>().material.color = ncol;
+
+                        ApplyColour(mesh, ncol);
+                    }
                     
 
                     CubeCount++;
@@ -88,24 +93,24 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
-    public void Carve()
-    {
-        for(int x = 0; x < SizeX; x++)
-        {
-            for(int y = 0; y < SizeY; y++)
-            {
-                for (int z = 0; z < SizeZ; z++)
-                {
-                    //get the X and Z coords and compare with coords from perlin noise depending on if it returns 1 or 0 
-                    // for depth of carving 
+    //public void Carve()
+    //{
+    //    for(int x = 0; x < SizeX; x++)
+    //    {
+    //        for(int y = 0; y < SizeY; y++)
+    //        {
+    //            for (int z = 0; z < SizeZ; z++)
+    //            {
+    //                //get the X and Z coords and compare with coords from perlin noise depending on if it returns 1 or 0 
+    //                // for depth of carving 
                    
                     
 
-                }
-            }
+    //            }
+    //        }
             
-        }
-    }
+    //    }
+    //}
     
     private Color GetDepthColor(int y)
     {
@@ -144,11 +149,21 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
+
+
+    public int testPerlinX, testPerlinY;
+    [ContextMenu("Test Perlin Noise")]
+    public void PerlinTest()
+    {
+        Debug.Log(PerlinCalc(testPerlinX, testPerlinY));
+    }
+
     public int PerlinCalc(int x, int y)
     {
         float xCoord = (float)x / SizeX * scale + offsetX;
         float yCoord = (float)y / SizeY * scale + offsetY;
         float sample = Mathf.PerlinNoise(xCoord, yCoord);
+        sample = (sample * 7);
         return Mathf.RoundToInt(sample);
     }
   
