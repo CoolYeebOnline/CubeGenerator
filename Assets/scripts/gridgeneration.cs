@@ -46,8 +46,8 @@ public class gridgeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offsetX = Random.Range(0f, 1f);
-        offsetY = Random.Range(0f, 1f);
+        offsetX = Random.Range(1f, 1000f);
+        offsetY = Random.Range(1f, 1000f);
         StartGen();
 
         //      Maincube = gameObject;
@@ -76,6 +76,7 @@ public class gridgeneration : MonoBehaviour
                         GameObject newGridPiece = Instantiate(prefab, transform);
                         Vector3 newPosition = new Vector3(x, y, z);
                         newGridPiece.transform.localPosition = newPosition;
+                        
 
                         Color ncol = GetDepthColor(y); // new Color((float)x / SizeX, (float)y / SizeY, (float)z / SizeZ);
                                                        //newGridPiece.TryGetComponent(out MeshRenderer rend);
@@ -149,6 +150,10 @@ public class gridgeneration : MonoBehaviour
         }
     }
 
+    public void buildingGen()
+    {
+        
+    }
 
 
     public int testPerlinX, testPerlinY;
